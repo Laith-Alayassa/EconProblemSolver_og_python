@@ -9,17 +9,16 @@ def profitMaximize():
     Q = symbols("Q") # symbol means the same thing as a variable in normal language
 
     # Set up equations
-    # TODO: setup formula using the default demand equation formula Q = mP + b <-> p = (Q-b)/m
+
+
+    print("example input for price function: 100 * Q - 4")
+    print("example input for cost function: Q ** 2 + 4 * Q - 3 \n")
 
     ns["Q"] = Symbol("Q")
-    price = sympify(input("What is the price equation? (FORM: m*Q -b): "), locals = ns)
+    price = sympify(input("What is the price equation? (FORM: m*Q -b), where Q is quantity: "), locals = ns)     # TODO: setup formula using the default demand equation formula Q = mP + b <-> p = (Q-b)/m
     cost = sympify(input("What is the cost equation? ") , locals = ns)
 
-    # price = 100 * Q
-    # cost = Q ** 2 + 2 * Q + 50
-
     revenue = price * Q
-    profit = revenue - cost
 
     # write solving process
     print("Profit = Revenue - Cost")
@@ -34,18 +33,17 @@ def profitMaximize():
 
     print("\n")
 
+    # find possible quantities solutions (could be 0 or higher, if higher choose the higher)
     Q = 0
     for x in quantities:
         if x >= 0:
             print(f"Q could be: {x} units")
         if x > 0:
-            Q = x  # Set Q for the positive Q quantity (to eliminate 0 as a possible solution if there is a positive one)
-    # replacing Q in cost with found quantity value
-    costText = str(cost).replace("Q", str(Q))
-    revenueText = str(revenue).replace("Q", str(Q))
-    # TODO: Use subs() instead
-    # TODO: maybe just use cost and revenue instead of new variables
+            Q = x
 
+    # replacing Q in cost with found quantity value
+    costText = str(cost).replace("Q", "(" + str(Q) + ")")    # TODO: just use cost and revenue instead of new variables
+    revenueText = str(revenue).replace("Q", "(" + str(Q) + ")")
 
     # find profit with found quantity
     profit = eval(revenueText) - eval(costText)
@@ -53,11 +51,10 @@ def profitMaximize():
     # Print output
     print("\n")
     print("Profit = P * Q - C")
-    print(f"Profit = {revenueText} - ({costText})")
+    print(f"Profit = {revenueText.replace('**', '^')} - ({costText.replace('**', '^')})")
     print(f"profit = ${profit}")
-    print(f"profit = ${N(profit,5)}")
+    print(f"profit = ${N(profit)}")
 
 if __name__ == '__main__':
     profitMaximize()
-    # TODO: make it so that this takes in the input
 
