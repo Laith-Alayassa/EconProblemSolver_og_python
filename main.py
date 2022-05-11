@@ -78,7 +78,7 @@ def monopolySolver():
     print("example input for cost function: Q ^ 2 + 4 * Q - 3 \n")
 
     ns["Q"] = Symbol("Q")
-    price = sympify(
+    price = sympify( # price function
         input("What is the price equation? (FORM: m*Q -b), where Q is quantity: ")
             .replace("^", "**")
             .replace("q", "Q"), locals=ns)  # TODO: setup formula using the default demand equation formula Q = mP + b <-> p = (Q-b)/m
@@ -87,6 +87,7 @@ def monopolySolver():
             .replace("^", "**")
             .replace("q", "Q"), locals=ns)
 
+    p = 0 #price
     revenue = price * Q
 
 
@@ -113,8 +114,8 @@ def monopolySolver():
             q = x
 
 
-    price = price.subs(Q, q)
-    print(price)
+    p = price.subs(Q, q) #finding price
+    print(p , "---- printing price")
     # replacing Q in cost with found quantity value
     costText = str(cost).replace("Q", "(" + str(q) + ")")  # TODO: just use cost and revenue instead of new variables
     revenueText = str(revenue).replace("Q", "(" + str(q) + ")")
@@ -129,8 +130,23 @@ def monopolySolver():
     print(f"profit = ${profit}")
     print(f"profit = ${N(profit, 5)}")
 
+    def findWelfareLoss():
+        a = p  # upper corner substitute Q into the MC (derivative of cost function)
+        print(f"a = {a}")
+        c = diff(cost).subs(Q, q) # lower  corner
+        print(f"c = {c}")
+        b = solve(diff(cost) - price, Q) # right corner of the triangle
+        for i in b:
+            if i > b:
+                b = i
+        print(f"b = {b}")
+
+        welfareLoss = 1/2 * (a - b) * (b - q) # b-q because q is the monopoly quant and b is the free market quant
 
 
+        print(f"\nWelfare loss is equal to {welfareLoss}")
+
+    findWelfareLoss()
 
 if __name__ == '__main__':
     # profitMaximize()
