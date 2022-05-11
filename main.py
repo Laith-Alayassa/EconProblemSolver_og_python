@@ -3,9 +3,15 @@ from sympy.abc import ns
 
 
 # TODO: make it so that you can input the equations in different forms, either revenue equation directly or price equation
-# TODO: calculate welfare loss
-def solveProfitMax(problem ="profitMax"):  # TODO: Make them one function depending on the condition
-    if problem == "monopoly":
+def solveProfitMax(market="competitive"):
+    """
+    solves profit maximization problems for firms using user input for the price [P(Q)] and the cost [C(Q)] functions
+
+    @param market: type of market (e.g. competitive, monopoly)
+    @return: Tuple (profit maximizing quantity, profit generated at that quantity)
+    """
+
+    if market == "monopoly":
         print('\n You are solving a profit maximization problem for a monopoly')
     else:
         print("\n You are solving a profit maximization problem")
@@ -23,13 +29,14 @@ def solveProfitMax(problem ="profitMax"):  # TODO: Make them one function depend
             .replace("^", "**")
             .replace("q", "Q"),
         locals=ns)  # TODO: setup formula using the default demand equation formula Q = mP + b <-> p = (Q-b)/m
+
     cost = sympify(
         input("What is the cost equation? ")
             .replace("^", "**")
             .replace("q", "Q"), locals=ns)
 
     p = 0  # price
-    revenue = price * Q
+    revenue = price * Q  # setting up revenue equation
 
     # write solving process
     print("Profit = Revenue - Cost")
@@ -69,23 +76,27 @@ def solveProfitMax(problem ="profitMax"):  # TODO: Make them one function depend
     print(f"profit = ${profit}")
     print(f"profit = ${N(profit, 5)}")
 
-    if problem == "monopoly":
-        def findWelfareLoss():
-            a = p  # upper corner substitute Q into the MC (derivative of cost function)
-            print(f"a = {a}")
-            c = diff(cost).subs(Q, q)  # lower  corner where MC is evaluated at new Q
-            print(f"c = {c}")
-            b = solve(diff(cost) - price, Q)  # right corner of the triangle
-            print(f"b = {b}, and it's type is {type(b)}")
-            print(f"b[0] = {b[0]}")
-            print(f"q = {q}, and its type is {type(q)}")
+    if market == "monopoly":
+        welfareLoss = findMonopolyWelfareLoss(Q, cost, p, price, q)
+        return q, profit, welfareLoss
 
-            b = b[0]
-            welfareLoss = 1 / 2 * (a - c) * (b - q)  # b-q because q is the monopoly quant and b is the free market quant
+    return q, profit
 
-            print(f"\nWelfare loss is equal to {welfareLoss}")
 
-        findWelfareLoss()
+def findMonopolyWelfareLoss(Q, cost, p, price, q):
+    a = p  # upper corner substitute Q into the MC (derivative of cost function)
+    print(f"a = {a}")
+    c = diff(cost).subs(Q, q)  # lower  corner where MC is evaluated at new Q
+    print(f"c = {c}")
+    b = solve(diff(cost) - price, Q)  # right corner of the triangle
+    print(f"b = {b}, and it's type is {type(b)}")
+    print(f"b[0] = {b[0]}")
+    print(f"q = {q}, and its type is {type(q)}")
+    b = b[0]
+    welfareLoss = 1 / 2 * (a - c) * (b - q)  # b-q because q is the monopoly quant and b is the free market quant
+    print(f"\nWelfare loss is equal to {welfareLoss}")
+    return welfareLoss
+
 
 if __name__ == '__main__':
-    solveProfitMax("monopoly")
+    print(solveProfitMax())
