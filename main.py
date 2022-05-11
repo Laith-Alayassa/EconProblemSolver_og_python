@@ -136,12 +136,12 @@ def monopolySolver():
         c = diff(cost).subs(Q, q) # lower  corner
         print(f"c = {c}")
         b = solve(diff(cost) - price, Q) # right corner of the triangle
-        for i in b:
-            if i > b:
-                b = i
-        print(f"b = {b}")
+        print(f"b = {b}, and it's type is {type(b)}")
+        print(f"b[0] = {b[0]}")
+        print(f"q = {q}, and its type is {type(q)}")
 
-        welfareLoss = 1/2 * (a - b) * (b - q) # b-q because q is the monopoly quant and b is the free market quant
+        b = b[0]
+        welfareLoss = 1/2 * (a - c) * (b - q) # b-q because q is the monopoly quant and b is the free market quant
 
 
         print(f"\nWelfare loss is equal to {welfareLoss}")
