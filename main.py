@@ -3,7 +3,7 @@ from sympy.abc import ns
 
 
 # TODO: make it so that you can input the equations in different forms, either revenue equation directly or price equation
-def solveProfitMax(market="competitive"):
+def solve_profit_max(market="competitive"):
     """
     solves profit maximization problems for firms using user input for the price [P(Q)] and the cost [C(Q)] functions
 
@@ -39,12 +39,12 @@ def solveProfitMax(market="competitive"):
     revenue = price * Q  # setting up revenue equation
 
     # write solving process
-    print("Profit = Revenue - Cost")
-    print("Profit = P * Q - Cost\n")
-    print("max Profit =\n∆ Profit/ ∆ Q = 0\nMR - MC = 0\n")
-    print("max Profit = MR - MC = 0")
-    print(f"max Profit = {diff(revenue)} - ({diff(cost)}) = 0")
-    print(f"max Profit = {diff(revenue)} = {diff(cost)}")
+    print("Profit = Revenue - Cost\n"
+          "Profit = P * Q - Cost\n"
+          "max Profit =\n∆ Profit/ ∆ Q = 0\nMR - MC = 0\n"
+          "max Profit = MR - MC = 0\n"
+          f"max Profit = {diff(revenue)} - ({diff(cost)}) = 0\n"
+          f"max Profit = {diff(revenue)} = {diff(cost)}")
 
     # Solve for possible quantities
     quantities = solve(diff(revenue) - diff(cost), Q)
@@ -70,20 +70,19 @@ def solveProfitMax(market="competitive"):
     profit = eval(revenueText) - eval(costText)
 
     # Print output
-    print("\n")
-    print("Profit = P * Q - C")
-    print(f"Profit = {revenueText.replace('**', '^')} - ({costText.replace('**', '^')})")
-    print(f"profit = ${profit}")
-    print(f"profit = ${N(profit, 5)}")
+    print("\nProfit = P * Q - C\n"
+          f"Profit = {revenueText.replace('**', '^')} - ({costText.replace('**', '^')})"
+          f"profit = ${profit}"
+          f"profit = ${N(profit, 5)}")
 
     if market == "monopoly":
-        welfareLoss = findMonopolyWelfareLoss(Q, cost, p, price, q)
+        welfareLoss = find_monopoly_welfare_loss(Q, cost, p, price, q)
         return q, profit, welfareLoss
 
     return q, profit
 
 
-def findMonopolyWelfareLoss(Q, cost, p, price, q):
+def find_monopoly_welfare_loss(Q, cost, p, price, q):
     a = p  # upper corner substitute Q into the MC (derivative of cost function)
     print(f"a = {a}")
     c = diff(cost).subs(Q, q)  # lower  corner where MC is evaluated at new Q
@@ -99,4 +98,4 @@ def findMonopolyWelfareLoss(Q, cost, p, price, q):
 
 
 if __name__ == '__main__':
-    print(solveProfitMax())
+    print(solve_profit_max())
