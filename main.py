@@ -3,13 +3,14 @@ from sympy.abc import ns
 
 
 # TODO: make it so that you can input the equations in different forms, either revenue equation directly or price equation
-def solve_profit_max(market="competitive"):
+def solve_profit_max():
     """
     solves profit maximization problems for firms using user input for the price [P(Q)] and the cost [C(Q)] functions
 
     @param market: type of market (e.g. competitive, monopoly)
     @return: Tuple (profit maximizing quantity, profit generated at that quantity)
     """
+    market = input("What is the market structure (competitive or monopoly)? ")
 
     if market == "monopoly":
         print('\n You are solving a profit maximization problem for a monopoly')
@@ -98,4 +99,4 @@ def find_monopoly_welfare_loss(Q, cost, p, price, q):
 
 
 if __name__ == '__main__':
-    print(solve_profit_max())
+    solve_profit_max()
