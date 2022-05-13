@@ -1,5 +1,7 @@
 from sympy import *
 from sympy.abc import ns
+from plot_maker import create_plot
+
 
 
 # TODO: make it so that you can input the equations in different forms, either revenue equation directly or price equation
@@ -13,9 +15,9 @@ def solve_profit_max():
     market = input("What is the market structure (competitive or monopoly)? ")
 
     if market == "monopoly":
-        print('\n You are solving a profit maximization problem for a monopoly')
+        print('\nYou are solving a profit maximization problem for a monopoly')
     else:
-        print("\n You are solving a profit maximization problem")
+        print("\nYou are solving a profit maximization problem")
     # Create unknown variable as a symbol
     Q = symbols("Q")  # symbol means the same thing as a variable in normal language
 
@@ -36,6 +38,8 @@ def solve_profit_max():
             .replace("^", "**")
             .replace("q", "Q"), locals=ns)
 
+    create_plot(price, cost)
+
     p = 0  # price
     revenue = price * Q  # setting up revenue equation
 
@@ -45,12 +49,12 @@ def solve_profit_max():
           "max Profit =\n∆ Profit/ ∆ Q = 0\nMR - MC = 0\n"
           "max Profit = MR - MC = 0\n"
           f"max Profit = {diff(revenue)} - ({diff(cost)}) = 0\n"
-          f"max Profit = {diff(revenue)} = {diff(cost)}")
+          f"max Profit = {diff(revenue)} = {diff(cost)}\n")
 
     # Solve for possible quantities
     quantities = solve(diff(revenue) - diff(cost), Q)
 
-    print("\n")
+
 
     # find possible quantities solutions (could be 0 or higher, if higher choose the higher)
     q = 0
@@ -72,9 +76,13 @@ def solve_profit_max():
 
     # Print output
     print("\nProfit = P * Q - C\n"
-          f"Profit = {revenueText.replace('**', '^')} - ({costText.replace('**', '^')})"
-          f"profit = ${profit}"
+          f"Profit = {revenueText.replace('**', '^')} - ({costText.replace('**', '^')})\n"
+          f"profit = ${profit}\n"
           f"profit = ${N(profit, 5)}")
+
+    print("\n")
+
+
 
     if market == "monopoly":
         welfareLoss = find_monopoly_welfare_loss(Q, cost, p, price, q)
