@@ -2,7 +2,7 @@ import csv
 
 import numpy as np
 import pandas as pd
-from matplotlib import  pyplot as plt
+from matplotlib import pyplot as plt
 from collections import Counter
 
 plt.style.use('fivethirtyeight')
@@ -31,14 +31,9 @@ popularity.reverse()
 
 plt.barh(languages,
          popularity,
-        color = '#231359')
+         color='#231359')
 
 plt.title('Most popular languages')
-
-
-
-
-
 
 # # Median Developer Salaries by Age
 # ages_x = [25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35]
@@ -90,5 +85,3 @@ plt.title('Most popular languages')
 # plt.tight_layout()
 
 plt.show()
-
-
