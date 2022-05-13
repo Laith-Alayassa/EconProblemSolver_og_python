@@ -52,6 +52,7 @@ def create_plot(price_function, cost_function, revenue):
 
     plt.ylim([0,int(price_y_intersect) * 1.1])
 
+    plt.title('Market Equilibrium')
     plt.xlabel("Quantity")
     plt.ylabel("Price")
     plt.plot(x_values, y_values, label="P(Q)")

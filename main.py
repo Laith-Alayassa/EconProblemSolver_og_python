@@ -3,7 +3,7 @@ from sympy.abc import ns
 from plot_maker import create_plot
 
 
-
+# TODO: Check for valid inputs
 # TODO: make it so that you can input the equations in different forms, either revenue equation directly or price equation
 def solve_profit_max():
     """
@@ -12,7 +12,14 @@ def solve_profit_max():
     @param market: type of market (e.g. competitive, monopoly)
     @return: Tuple (profit maximizing quantity, profit generated at that quantity)
     """
-    market = input("What is the market structure (competitive or monopoly)? ")
+    market_types = ["competitive", "monopoly"]
+    # Get market type from user
+    while True:
+        market = input("What is the market structure (competitive or monopoly)? ").lower()
+        if market not in market_types:
+            print(f"I'm unfamiliar with that market, try one of those: {market_types}")
+        else:
+            break
 
     if market == "monopoly":
         print('\nYou are solving a profit maximization problem for a monopoly')
@@ -27,22 +34,29 @@ def solve_profit_max():
     print("example input for cost function: Q ^ 2 + 4 * Q - 3 \n")
 
     ns["Q"] = Symbol("Q")
-    price = sympify(  # price function
-        input("What is the price equation? (FORM: m*Q -b), where Q is quantity: ")
-            .replace("^", "**")
-            .replace("q", "Q"),
-        locals=ns)  # TODO: setup formula using the default demand equation formula Q = mP + b <-> p = (Q-b)/m
 
-    cost = sympify(
-        input("What is the cost equation? ")
-            .replace("^", "**")
-            .replace("q", "Q"), locals=ns)
+    # Get user input
+    while True:
+        try:
+            price = sympify(  # price function
+                input("What is the price equation? (FORM: m*Q -b), where Q is quantity: ")
+                    .replace("^", "**")
+                    .replace("q", "Q"),
+                locals=ns)  # TODO: setup formula using the default demand equation formula Q = mP + b <-> p = (Q-b)/m
 
+            cost = sympify(
+                input("What is the cost equation? ")
+                    .replace("^", "**")
+                    .replace("q", "Q"), locals=ns)
 
-    p = 0  # price
-    revenue = price * Q  # setting up revenue equation
+            p = 0  # price
+            revenue = price * Q  # setting up revenue equation
 
-    create_plot(price, cost, revenue)
+            create_plot(price, cost, revenue) # This is here because the error occurs here if user gives wrong input
+        except:
+            print("Something doesn't seem right, plz try again boss")
+        else:
+            break
 
     # write solving process
     print("Profit = Revenue - Cost\n"
@@ -54,8 +68,6 @@ def solve_profit_max():
 
     # Solve for possible quantities
     quantities = solve(diff(revenue) - diff(cost), Q)
-
-
 
     # find possible quantities solutions (could be 0 or higher, if higher choose the higher)
     q = 0
@@ -79,11 +91,9 @@ def solve_profit_max():
     print("\nProfit = P * Q - C\n"
           f"Profit = {revenueText.replace('**', '^')} - ({costText.replace('**', '^')})\n"
           f"profit = ${profit}\n"
-          f"profit = ${round(profit,4)}")
+          f"profit = ${round(profit, 4)}")
 
     print("\n")
-
-
 
     if market == "monopoly":
         welfareLoss = find_monopoly_welfare_loss(Q, cost, p, price, q)
