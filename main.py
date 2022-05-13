@@ -23,7 +23,7 @@ def solve_profit_max():
 
     # Set up equations
 
-    print("example input for price function: 100 * Q - 4")
+    print("example input for price function: -100 * Q + 4")
     print("example input for cost function: Q ^ 2 + 4 * Q - 3 \n")
 
     ns["Q"] = Symbol("Q")
@@ -38,10 +38,11 @@ def solve_profit_max():
             .replace("^", "**")
             .replace("q", "Q"), locals=ns)
 
-    create_plot(price, cost)
 
     p = 0  # price
     revenue = price * Q  # setting up revenue equation
+
+    create_plot(price, cost, revenue)
 
     # write solving process
     print("Profit = Revenue - Cost\n"
@@ -78,7 +79,7 @@ def solve_profit_max():
     print("\nProfit = P * Q - C\n"
           f"Profit = {revenueText.replace('**', '^')} - ({costText.replace('**', '^')})\n"
           f"profit = ${profit}\n"
-          f"profit = ${N(profit, 5)}")
+          f"profit = ${round(profit,4)}")
 
     print("\n")
 

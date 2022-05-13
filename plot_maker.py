@@ -9,15 +9,18 @@ Q = symbols("Q")
 ns["Q"] = Symbol("Q")
 
 
-def create_plot(price_function, cost_function):
+def create_plot(price_function, cost_function, revenue):
+    """
+    creates a plot of the equilibrium between the inverse demand and MC function
 
-    print(price_function, cost_function)
-    print(type(cost_function), type(price_function))
+    @param price_function: inverse demand function
+    @param cost_function:  cost funtion
+    @return:
+    """
 
     # Solve for price function intersection
     price_x_intersect = solve(price_function)
     price_y_intersect = price_function.subs(Q, 0)
-    print(f"--------- price function x and y: {price_x_intersect}, {price_y_intersect}")
 
     price_x_intersect = float(price_x_intersect[-1])  # sets x intersect to the lat element of the possible
     # intersections (could do the first as well)
@@ -25,7 +28,15 @@ def create_plot(price_function, cost_function):
     x_values = [0, price_x_intersect]  # min and max value for x axis
     y_values = [price_y_intersect, 0]  # min and max value for y-axis
 
+    # Solve for MR curve
+    mr_curve = diff(revenue)
 
+    mr_x_intersect = solve(mr_curve)
+    mr_y_intersect = mr_curve.subs(Q, 0)
+    mr_x_intersect = float(mr_x_intersect[0])
+
+    mr_x_values = [0 , mr_x_intersect]
+    mr_y_values = [mr_y_intersect, 0]
 
 
     # Solve for MC function intersection
@@ -40,21 +51,22 @@ def create_plot(price_function, cost_function):
     # slope of MC is flat
 
     plt.ylim([0,int(price_y_intersect) * 1.1])
-    # TODO: add MR curve
 
     plt.xlabel("Quantity")
     plt.ylabel("Price")
     plt.plot(x_values, y_values, label="P(Q)")
     plt.plot(mc_x_values, mc_y_values, label="MC(Q)")
+    plt.plot(mr_x_values, mr_y_values, label = "MR(Q)", linestyle = "dashed" )
 
     plt.legend()
     plt.tight_layout()
 
     plt.show()
 
-
-
-
 if __name__ == '__main__':
-    create_plot(sympify("-2 * Q**2 + 3", locals=ns),
-                sympify('2.5 * Q**2 - 3 ', locals=ns))
+    pass
+    # # create_plot(sympify("-2 * Q**2 + 3", locals=ns),
+    # #             sympify('2.5 * Q**2 - 3 ', locals=ns))
+    create_plot(sympify("(Q-150)/-5", locals=ns),
+                sympify('4 * Q', locals=ns),
+                sympify('Q*(30 - Q/5)', locals=ns))
