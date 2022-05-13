@@ -32,6 +32,8 @@ def create_plot(price_function, cost_function):
 
     # TODO: add MR curve
 
+    plt.xlabel("Quantity")
+    plt.ylabel("Price")
     plt.plot(x_values, y_values, label="P(Q)")
     plt.plot(mc_x_values, mc_y_values, label="MC(Q)")
 
